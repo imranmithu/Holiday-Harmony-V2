@@ -1,1 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holiday Calm - Stress Relief</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(to bottom, #f1f5f9, #e2e8f0);
+      min-height: 100vh;
+      color: #334155;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      max-width: 28rem;
+      margin: 0 auto;
+      padding: 1rem;
+      padding-bottom: 6rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Snowflakes */
+    .snowflakes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .snowflake {
+      position: absolute;
+      color: white;
+      opacity: 0.6;
+      animation: float 4s ease-in-out infinite;
+      text-shadow: 0 0 5px rgba(100, 150, 255, 0.5);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(-10px) rotate(180deg); opacity: 0.3; }
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+
+    .header h1 {
+      font-size: 1.875rem;
+      font-weight: 300;
+      color: #475569;
+      margin-bottom: 0.5rem;
+    }
+
+    .header h2 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #475569;
+      margin-bottom: 0.25rem;
+    }
+
+    .header p {
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+
+    .card-gradient {
+      background: linear-gradient(to right, #ffe4e6, #fce7f3, #f3e8ff);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: box-shadow 0.3s;
+    }
+
+    .card-gradient:hover {
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .card-amber {
+      background: linear-gradient(to bottom right, #fef3c7, #ffedd5);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      color: #475569;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    /* Affirmation */
+    .affirmation-label {
+      color: #64748b;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .affirmation-text {
+      font-size: 1.25rem;
+      font-weight: 300;
+      font-style: italic;
+      color: #475569;
+    }
+
+    .tap-hint {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 0.75rem;
+    }
+
+    /* Quick Relief Grid */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .quick-btn {
+      background: #f8fafc;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .quick-btn:hover {
+      background: #f1f5f9;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .quick-btn .icon {
+      font-size: 1.5rem;
+    }
+
+    .quick-btn .label {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    /* Mood Slider */
+    .mood-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .mood-emoji {
+      font-size: 1.5rem;
+    }
+
+    .mood-slider {
+      flex: 1;
+      height: 0.5rem;
+      border-radius: 9999px;
+      appearance: none;
+      background: linear-gradient(to right, #fda4af, #fcd34d, #6ee7b7);
+      cursor: pointer;
+    }
+
+    .mood-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .mood-message {
+      text-align: center;
+      color: #64748b;
+      margin-top: 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    /* Breathing Circle */
+    .breathing-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+
+    .breathing-circle {
+      width: 12rem;
+      height: 12rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: all 1s ease-in-out;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+
+    .breathing-circle.inhale {
+      background: linear-gradient(to bottom right, #34d399, #14b8a6);
+      transform: scale(1);
+    }
+
+    .breathing-circle.hold {
+      background: linear-gradient(to bottom right, #60a5fa, #6366f1);
+      transform: scale(1);
+    }
+
+    .breathing-circle.exhale {
+      background: linear-gradient(to bottom right, #a78bfa, #ec4899);
+      transform: scale(0.75);
+    }
+
+    .breathing-circle.rest {
+      background: linear-gradient(to bottom right, #94a3b8, #64748b);
+      transform: scale(0.75);
+    }
+
+    .breath-phase {
+      font-size: 1.875rem;
+      font-weight: 300;
+      color: white;
+      text-transform: capitalize;
+    }
+
+    .breath-count {
+      font-size: 3.75rem;
+      font-weight: 100;
+      color: white;
+    }
+
+    .breath-btn {
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .breath-btn.start {
+      background: #10b981;
+      color: white;
+    }
+
+    .breath-btn.start:hover {
+      background: #059669;
+    }
+
+    .breath-btn.stop {
+      background: #f43f5e;
+      color: white;
+    }
+
+    .breath-btn.stop:hover {
+      background: #e11d48;
+    }
+
+    .breath-info {
+      color: #64748b;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+
+    /* Benefits List */
+    .benefits-list {
+      list-style: none;
+    }
+
+    .benefits-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .benefits-list .dot {
+      margin-top: 0.25rem;
+    }
+
+    /* Tips */
+    .tip-card {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      transition: all 0.3s;
+    }
+
+    .tip-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .tip-icon {
+      font-size: 1.5rem;
+    }
+
+    .tip-title {
+      font-weight: 500;
+      color: #475569;
+    }
+
+    .tip-desc {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    /* Journal */
+    .gratitude-input-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .gratitude-input {
+      flex: 1;
+      background: white;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      color: #475569;
+    }
+
+    .gratitude-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #fcd34d;
+    }
+
+    .gratitude-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .add-btn {
+      background: #f59e0b;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0 1rem;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #d97706;
+    }
+
+    .gratitude-list {
+      list-style: none;
+    }
+
+    .gratitude-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+
+    .gratitude-heart {
+      color: #f59e0b;
+    }
+
+    .journal-textarea {
+      width: 100%;
+      height: 8rem;
+      background: #f8fafc;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      font-size: 1rem;
+      color: #475569;
+      resize: none;
+      font-family: inherit;
+    }
+
+    .journal-textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #e2e8f0;
+    }
+
+    .journal-textarea::placeholder {
+      color: #94a3b8;
+    }
+
+    .journal-tip {
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      z-index: 20;
+    }
+
+    .nav-inner {
+      max-width: 28rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.75rem 0;
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.25rem 1rem;
+      border: none;
+      background: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: #94a3b8;
+    }
+
+    .nav-btn:hover {
+      color: #64748b;
+    }
+
+    .nav-btn.active {
+      color: #059669;
+    }
+
+    .nav-btn .nav-icon {
+      font-size: 1.25rem;
+    }
+
+    .nav-btn .nav-label {
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Snowflakes Background -->
+  <div class="snowflakes" id="snowflakes"></div>
+
+  <div class="app-container">
+    <!-- HOME TAB -->
+    <div id="home-tab" class="tab-content active">
+      <div class="header">
+        <h1>Holiday Calm</h1>
+        <p>Take a moment for yourself</p>
+      </div>
+
+      <div class="card-gradient" onclick="cycleAffirmation()">
+        <p class="affirmation-label">✨ Today's Affirmation</p>
+        <p class="affirmation-text" id="affirmation-text">"I deserve peace and rest during this season."</p>
+        <p class="tap-hint">Tap for another</p>
+      </div>
+
+      <div class="card">
+        <p class="card-title">Quick Relief</p>
+        <div class="quick-grid">
+          <button class="quick-btn" onclick="showTab('breathe')">
+            <span class="icon">🌿</span>
+            <span class="label">5-4-3-2-1 Grounding</span>
+          </button>
+          <button class="quick-btn" onclick="showTab('breathe')">
+            <span class="icon">🫁</span>
+            <span class="label">Box Breathing</span>
+          </button>
+          <button class="quick-btn" onclick="showTab('breathe')">
+            <span class="icon">✨</span>
+            <span class="label">Body Scan</span>
+          </button>
+          <button class="quick-btn" onclick="showTab('journal')">
+            <span class="icon">💝</span>
+            <span class="label">Gratitude</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">How are you feeling?</p>
+        <div class="mood-container">
+          <span class="mood-emoji">😔</span>
+          <input type="range" min="1" max="10" value="5" class="mood-slider" id="mood-slider" oninput="updateMoodMessage()">
+          <span class="mood-emoji">😊</span>
+        </div>
+        <p class="mood-message" id="mood-message">You're doing fine. Small steps matter.</p>
+      </div>
+    </div>
+
+    <!-- BREATHE TAB -->
+    <div id="breathe-tab" class="tab-content">
+      <div class="header">
+        <h2>Breathing Space</h2>
+        <p>Let your breath anchor you</p>
+      </div>
+
+      <div class="breathing-container">
+        <div class="breathing-circle inhale" id="breathing-circle">
+          <div class="breath-phase" id="breath-phase">inhale</div>
+          <div class="breath-count" id="breath-count">4</div>
+        </div>
+        <button class="breath-btn start" id="breath-btn" onclick="toggleBreathing()">Start Breathing</button>
+        <p class="breath-info">4-4-4-4 Box Breathing</p>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">How Box Breathing Helps</h3>
+        <ul class="benefits-list">
+          <li><span class="dot" style="color: #10b981;">●</span> Activates your parasympathetic nervous system</li>
+          <li><span class="dot" style="color: #3b82f6;">●</span> Reduces cortisol and stress hormones</li>
+          <li><span class="dot" style="color: #8b5cf6;">●</span> Improves focus and mental clarity</li>
+          <li><span class="dot" style="color: #ec4899;">●</span> Can lower blood pressure in minutes</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TIPS TAB -->
+    <div id="tips-tab" class="tab-content">
+      <div class="header">
+        <h2>Holiday Survival Guide</h2>
+        <p>Practical wisdom for the season</p>
+      </div>
+
+      <div id="tips-container"></div>
+    </div>
+
+    <!-- JOURNAL TAB -->
+    <div id="journal-tab" class="tab-content">
+      <div class="header">
+        <h2>Gratitude Journal</h2>
+        <p>Notice the good, however small</p>
+      </div>
+
+      <div class="card-amber">
+        <p class="card-title">What brought you joy today?</p>
+        <div class="gratitude-input-container">
+          <input type="text" class="gratitude-input" id="gratitude-input" placeholder="A warm cup of coffee..." onkeypress="handleGratitudeKeypress(event)">
+          <button class="add-btn" onclick="addGratitude()">+</button>
+        </div>
+      </div>
+
+      <div class="card" id="gratitude-list-card" style="display: none;">
+        <p class="card-title">Your Gratitude List</p>
+        <ul class="gratitude-list" id="gratitude-list"></ul>
+      </div>
+
+      <div class="card">
+        <p class="card-title">Free Write</p>
+        <textarea class="journal-textarea" placeholder="Let your thoughts flow freely..."></textarea>
+      </div>
+
+      <div class="journal-tip">
+        ✨ Journaling for just 5 minutes can reduce anxiety and improve sleep
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <button class="nav-btn active" id="nav-home" onclick="showTab('home')">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-btn" id="nav-breathe" onclick="showTab('breathe')">
+        <span class="nav-icon">🫁</span>
+        <span class="nav-label">Breathe</span>
+      </button>
+      <button class="nav-btn" id="nav-tips" onclick="showTab('tips')">
+        <span class="nav-icon">💡</span>
+        <span class="nav-label">Tips</span>
+      </button>
+      <button class="nav-btn" id="nav-journal" onclick="showTab('journal')">
+        <span class="nav-icon">📔</span>
+        <span class="nav-label">Journal</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    // Data
+    const affirmations = [
+      "I deserve peace and rest during this season.",
+      "I choose calm over chaos today.",
+      "My worth is not measured by my productivity.",
+      "I release expectations and embrace the moment.",
+      "I am enough, exactly as I am.",
+      "I give myself permission to say no.",
+      "Joy is found in simple moments.",
+      "I breathe in peace, I breathe out stress.",
+      "This too shall pass, and I will be okay.",
+      "I am surrounded by love and warmth."
+    ];
+
+    const tips = [
+      { icon: "🎯", title: "Set Boundaries", desc: "It's okay to decline invitations or leave early." },
+      { icon: "💰", title: "Budget Mindfully", desc: "Thoughtful gifts matter more than expensive ones." },
+      { icon: "⏰", title: "Schedule Rest", desc: "Block time for yourself like any other appointment." },
+      { icon: "🚶", title: "Take Walks", desc: "Fresh air and movement reset your nervous system." },
+      { icon: "📱", title: "Limit Social Media", desc: "Comparison steals joy. Be present instead." },
+      { icon: "🤝", title: "Ask for Help", desc: "Delegate tasks. You don't have to do it all." },
+      { icon: "🍎", title: "Nourish Yourself", desc: "Balance treats with foods that energize you." },
+      { icon: "😴", title: "Protect Sleep", desc: "Rest is not laziness—it's essential." }
+    ];
+
+    // State
+    let currentAffirmationIndex = 0;
+    let isBreathing = false;
+    let breathInterval = null;
+    let countInterval = null;
+    let gratitudeList = [];
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createSnowflakes();
+      renderTips();
+    });
+
+    // Snowflakes
+    function createSnowflakes() {
+      const container = document.getElementById('snowflakes');
+      for (let i = 0; i < 20; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.textContent = '❄';
+        snowflake.style.left = Math.random() * 100 + '%';
+        snowflake.style.top = Math.random() * 100 + '%';
+        snowflake.style.fontSize = (Math.random() * 12 + 8) + 'px';
+        snowflake.style.animationDelay = (Math.random() * 3) + 's';
+        snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        container.appendChild(snowflake);
+      }
+    }
+
+    // Tab Navigation
+    function showTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected tab
+      document.getElementById(tabName + '-tab').classList.add('active');
+      
+      // Update nav buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.getElementById('nav-' + tabName).classList.add('active');
+
+      // Stop breathing if leaving breathe tab
+      if (tabName !== 'breathe' && isBreathing) {
+        stopBreathing();
+      }
+    }
+
+    // Affirmations
+    function cycleAffirmation() {
+      currentAffirmationIndex = (currentAffirmationIndex + 1) % affirmations.length;
+      document.getElementById('affirmation-text').textContent = '"' + affirmations[currentAffirmationIndex] + '"';
+    }
+
+    // Mood
+    function updateMoodMessage() {
+      const score = document.getElementById('mood-slider').value;
+      let message;
+      if (score <= 3) {
+        message = "It's okay to not be okay. Try a breathing exercise.";
+      } else if (score <= 6) {
+        message = "You're doing fine. Small steps matter.";
+      } else {
+        message = "Wonderful! Capture this moment in gratitude.";
+      }
+      document.getElementById('mood-message').textContent = message;
+    }
+
+    // Breathing
+    function toggleBreathing() {
+      if (isBreathing) {
+        stopBreathing();
+      } else {
+        startBreathing();
+      }
+    }
+
+    function startBreathing() {
+      isBreathing = true;
+      const btn = document.getElementById('breath-btn');
+      btn.textContent = 'Stop';
+      btn.className = 'breath-btn stop';
+
+      const phases = ['inhale', 'hold', 'exhale', 'rest'];
+      let phaseIndex = 0;
+      let count = 4;
+
+      updateBreathDisplay(phases[0], 4);
+
+      countInterval = setInterval(() => {
+        count--;
+        if (count < 1) {
+          count = 4;
+          phaseIndex = (phaseIndex + 1) % 4;
+          updateBreathDisplay(phases[phaseIndex], count);
+        } else {
+          document.getElementById('breath-count').textContent = count;
+        }
+      }, 1000);
+    }
+
+    function stopBreathing() {
+      isBreathing = false;
+      clearInterval(countInterval);
+      
+      const btn = document.getElementById('breath-btn');
+      btn.textContent = 'Start Breathing';
+      btn.className = 'breath-btn start';
+
+      updateBreathDisplay('inhale', 4);
+    }
+
+    function updateBreathDisplay(phase, count) {
+      const circle = document.getElementById('breathing-circle');
+      circle.className = 'breathing-circle ' + phase;
+      document.getElementById('breath-phase').textContent = phase;
+      document.getElementById('breath-count').textContent = count;
+    }
+
+    // Tips
+    function renderTips() {
+      const container = document.getElementById('tips-container');
+      tips.forEach(tip => {
+        const tipCard = document.createElement('div');
+        tipCard.className = 'tip-card';
+        tipCard.innerHTML = `
+          <span class="tip-icon">${tip.icon}</span>
+          <div>
+            <div class="tip-title">${tip.title}</div>
+            <div class="tip-desc">${tip.desc}</div>
+          </div>
+        `;
+        container.appendChild(tipCard);
+      });
+    }
+
+    // Gratitude
+    function handleGratitudeKeypress(event) {
+      if (event.key === 'Enter') {
+        addGratitude();
+      }
+    }
+
+    function addGratitude() {
+      const input = document.getElementById('gratitude-input');
+      const text = input.value.trim();
+      
+      if (text) {
+        gratitudeList.push(text);
+        input.value = '';
+        renderGratitudeList();
+      }
+    }
+
+    function renderGratitudeList() {
+      const listCard = document.getElementById('gratitude-list-card');
+      const list = document.getElementById('gratitude-list');
+      
+      if (gratitudeList.length > 0) {
+        listCard.style.display = 'block';
+        list.innerHTML = gratitudeList.map(item => `
+          <li class="gratitude-item">
+            <span class="gratitude-heart">♥</span>
+            ${item}
+          </li>
+        `).join('');
+      } else {
+        listCard.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
